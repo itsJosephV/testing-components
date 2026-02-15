@@ -1,0 +1,118 @@
+---
+import { gsap } from "gsap";
+---
+
+<div
+  id="banner"
+  class="border-y-slate-300 border-y text-center py-4 relative overflow-hidden select-none"
+>
+  <div class="flex gap-4 items-center justify-center text-sm">
+    <span>&times;</span>
+    <span>HOLAAAAAAAAAA PEPOOSADDDFUMANDO</span>
+  </div>
+</div>
+<script>
+  import { gsap } from "gsap";
+  const banner = document.getElementById("banner");
+  let currentEmojiElement: HTMLElement | null = null;
+  let removeTimeout: ReturnType<typeof setTimeout> | null = null;
+  let isExiting = false;
+  let pendingEnter = false;
+
+  const emojis = ["😀", "🎉", "🚀", "🌟", "💻", "📢", "🔥", "✨", "🥰", "🧑🏿‍🎤"];
+  const validSpacings = [128, 208, 288];
+
+  function getRandomEmoji() {
+    return emojis[Math.floor(Math.random() * emojis.length)];
+  }
+
+  function createEmoji() {
+    if (removeTimeout) {
+      clearTimeout(removeTimeout);
+      removeTimeout = null;
+    }
+
+    if (isExiting) {
+      pendingEnter = true;
+      return;
+    }
+
+    if (currentEmojiElement) {
+      pendingEnter = true;
+      triggerExit();
+      return;
+    }
+
+    spawnEmoji();
+  }
+
+  function spawnEmoji() {
+    const emoji = document.createElement("span");
+    emoji.textContent = getRandomEmoji();
+    emoji.classList.add(
+      "text-4xl",
+      "absolute",
+      "bottom-0",
+      "pointer-events-none",
+    );
+
+    if (banner) {
+      banner.appendChild(emoji);
+      currentEmojiElement = emoji;
+
+      const isLeft = Math.random() < 0.5;
+      const distance =
+        validSpacings[Math.floor(Math.random() * validSpacings.length)];
+
+      gsap.set(emoji, {
+        [isLeft ? "left" : "right"]: distance,
+        y: 50,
+        // opacity: 0,
+      });
+
+      gsap.to(emoji, {
+        y: 10,
+        // opacity: 1,
+        duration: 0.1,
+        ease: "back.out(1.7)",
+      });
+    }
+  }
+
+  function triggerExit() {
+    if (currentEmojiElement && !isExiting) {
+      isExiting = true;
+      // EXIT - faster
+      gsap.to(currentEmojiElement, {
+        y: 50,
+        // opacity: 0,
+        duration: 0.1,
+        ease: "power2.in",
+        onComplete: () => {
+          if (currentEmojiElement) {
+            currentEmojiElement.remove();
+            currentEmojiElement = null;
+          }
+          isExiting = false;
+
+          if (pendingEnter) {
+            pendingEnter = false;
+            spawnEmoji();
+          }
+        },
+      });
+    }
+  }
+
+  function scheduleRemoval() {
+    pendingEnter = false;
+    removeTimeout = setTimeout(() => {
+      triggerExit();
+    }, 100);
+  }
+
+  if (banner) {
+    banner.addEventListener("mouseenter", createEmoji);
+    banner.addEventListener("mouseleave", scheduleRemoval);
+  }
+</script>

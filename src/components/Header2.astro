@@ -1,0 +1,156 @@
+<header
+  id="mainHeader"
+  class="sticky top-0 z-100 border-b bg-white border-slate-200"
+>
+  <div
+    id="headerContent"
+    class="flex justify-between items-center p-4 relative z-20"
+  >
+    <div class="font-black text-xl tracking-tighter">MILFSHAKES</div>
+    <nav class="md:block hidden">
+      <a
+        href="#"
+        class="px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded transition-colors"
+      >
+        SHOP ALL
+      </a>
+      <a
+        href="#"
+        class="px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded transition-colors"
+      >
+        LOCATIONS
+      </a>
+      <a
+        href="#"
+        class="px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded transition-colors"
+      >
+        REWARDS
+      </a>
+    </nav>
+    <button
+      id="menuBtn"
+      class="group w-5 h-5 flex flex-col justify-center items-center relative cursor-pointer md:hidden"
+      aria-label="Toggle Menu"
+    >
+      <span
+        class="w-full h-0.5 bg-black rounded-full transition-all duration-300 absolute top-0.5 group-[.active]:top-1/2 group-[.active]:-translate-y-1/2 group-[.active]:rotate-45"
+      ></span>
+
+      <span
+        class="w-full h-0.5 bg-black rounded-full transition-all duration-300 absolute top-1/2 -translate-y-1/2 group-[.active]:opacity-0"
+      ></span>
+
+      <span
+        class="w-full h-0.5 bg-black rounded-full transition-all duration-300 absolute bottom-0.5 group-[.active]:bottom-1/2 group-[.active]:translate-y-1/2 group-[.active]:-rotate-45"
+      ></span>
+    </button>
+  </div>
+
+  <header-menu-drawer
+    id="mobileNav"
+    class="hidden absolute right-0 w-80 bg-white border-slate-200 border-t border-l transition-transform duration-300 translate-x-full"
+    style="display: none;"
+    role="dialog"
+  >
+    <div class="flex flex-col h-full">
+      <nav class="p-5 flex flex-col gap-6 font-bold text-lg flex-1">
+        <a href="#" class="hover:text-red-600">SHOP ALL</a>
+        <a href="#" class="hover:text-red-600">LOCATIONS</a>
+        <a href="#" class="hover:text-red-600">REWARDS</a>
+      </nav>
+      <footer class="p-5 bg-slate-50 border-slate-200 border-t">
+        footer of the menu
+      </footer>
+    </div>
+  </header-menu-drawer>
+</header>
+
+<script>
+  const menuBtn = document.getElementById("menuBtn") as HTMLButtonElement;
+  const mobileNav = document.getElementById("mobileNav") as HTMLElement;
+  const headerContent = document.getElementById("headerContent") as HTMLElement;
+  const navLinks = mobileNav.querySelectorAll(
+    "a",
+  ) as NodeListOf<HTMLAnchorElement>;
+
+  // Robust height updater
+  const updateMenuLayout = () => {
+    if (!headerContent || !mobileNav) return;
+    const rect = headerContent.getBoundingClientRect();
+    // Set top to match header bottom, and height to fill remaining viewport
+    mobileNav.style.height = `calc(100dvh - ${rect.bottom}px)`;
+  };
+
+  function openNav() {
+    // 1. Preparation
+    updateMenuLayout();
+
+    // 2. Reveal
+    mobileNav.style.display = "block";
+    mobileNav.classList.remove("hidden");
+
+    // 3. Animation & State
+    requestAnimationFrame(() => {
+      mobileNav.classList.remove("translate-x-full");
+      menuBtn.classList.add("active");
+      document.body.style.overflow = "hidden";
+    });
+
+    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("touchstart", handleOutsideClick);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", updateMenuLayout);
+  }
+
+  function closeNav() {
+    // 1. Cleanup
+    document.body.style.overflow = "";
+    menuBtn.classList.remove("active");
+
+    // 2. Animate out
+    mobileNav.classList.add("translate-x-full");
+
+    // 3. Finalize visibility after transition
+    mobileNav.addEventListener(
+      "transitionend",
+      () => {
+        if (mobileNav.classList.contains("translate-x-full")) {
+          mobileNav.style.display = "none";
+          mobileNav.classList.add("hidden");
+        }
+      },
+      { once: true },
+    );
+
+    // 4. Remove listeners
+    document.removeEventListener("click", handleOutsideClick);
+    document.removeEventListener("touchstart", handleOutsideClick);
+    document.removeEventListener("keydown", handleEscape);
+    window.removeEventListener("resize", handleResize);
+  }
+
+  // --- Helpers & Listeners ---
+
+  function handleOutsideClick(e: any) {
+    if (!mobileNav.contains(e.target) && !menuBtn.contains(e.target)) {
+      closeNav();
+    }
+  }
+
+  function handleEscape(e: any) {
+    if (e.key === "Escape") closeNav();
+  }
+
+  function handleResize() {
+    if (window.innerWidth >= 768) closeNav();
+  }
+
+  menuBtn.addEventListener("click", (e: any) => {
+    e.stopPropagation();
+    const isOpen = !mobileNav.classList.contains("hidden");
+    isOpen ? closeNav() : openNav();
+  });
+
+  navLinks.forEach((link) => link.addEventListener("click", closeNav));
+</script>

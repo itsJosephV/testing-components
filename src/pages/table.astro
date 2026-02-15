@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TSTable from "../components/table/TSTable";
+---
+
+<Layout>
+  <div class="px-5 py-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 grid-cols-1 gap-6">
+        <div class="lg:col-span-8 col-span-full">
+          <h1 class="text-2xl font-bold mb-4">Table Component</h1>
+          <TSTable client:load />
+        </div>
+        <aside class="lg:col-span-4 col-span-full bg-blue-100 p-5">
+          <span
+            >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus
+            dolores at aliquid inventore dolore architecto, consectetur
+            repellendus! Facilis sequi quidem nemo reiciendis, doloribus quo eum
+            et quae consectetur suscipit sapiente.</span
+          >
+        </aside>
+      </div>
+    </div>
+  </div>
+</Layout>

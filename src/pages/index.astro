@@ -1,0 +1,73 @@
+---
+import ContactDialog from "../components/contact-dialog/contact-dialog";
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+
+const houses = [
+  {
+    id: "house-1",
+    slug: "modern-house",
+    label: "Casa Moderna",
+    promocion: "Promoción Primavera 2024",
+    tipo: "duplex B",
+    planta: 5,
+    precio: "$1,200,000",
+    habitaciones: 4,
+    banos: 3,
+    superficie: 2500,
+  },
+  {
+    id: "house-2",
+    slug: "cozy-cottage",
+    label: "Cottage Acogedor",
+    promocion: "Promoción Verano 2024",
+    tipo: "cottage A",
+    planta: 1,
+    precio: "$850,000",
+    habitaciones: 3,
+    banos: 2,
+    superficie: 1800,
+  },
+  {
+    id: "house-3",
+    slug: "luxury-villa",
+    label: "Villa de Lujo",
+    promocion: "Promoción Primavera 2024",
+    tipo: "villa C",
+    planta: 2,
+    precio: "$2,500,000",
+    habitaciones: 5,
+    banos: 4,
+    superficie: 4000,
+  },
+];
+---
+
+<Layout>
+  <div class="p-10 font-mono max-w-4xl mx-auto">
+    <div class="mb-6">
+      <a href="/table">go to table component</a>
+    </div>
+    <h1 class="text-2xl">Houses</h1>
+    <br />
+    <ul>
+      {
+        houses.map((house) => (
+          <li class="mb-8 border-b pb-4 flex items-center justify-between">
+            <div class="">
+              <a href={`/houses/${house.slug}`}>
+                <h2 class="text-xl font-bold mb-2">{house.label}</h2>
+              </a>
+              <p class="text-lg font-semibold">{house.precio}</p>
+              <p>
+                {house.habitaciones} Beds • {house.banos} Baths •{" "}
+                {house.superficie} sqft
+              </p>
+            </div>
+            <ContactDialog client:load house={house} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>

@@ -1,0 +1,136 @@
+---
+const navLinks = [
+  { href: "/", label: "Link 1" },
+  { href: "/shop", label: "Link 2" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+  { href: "/table", label: "table" },
+];
+---
+
+<div
+  id="mobile-nav-container"
+  class="absolute right-0 w-75 bg-white transition-all duration-300 translate-x-full pointer-events-none border-t shadow-xl overflow-y-scroll"
+  style="top: 100%; height: calc(100vh - 100%);"
+  role="navigation"
+  aria-label="Mobile navigation"
+>
+  <nav class="p-8 flex flex-col gap-6">
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="text-2xl font-bold uppercase hover:text-gray-600 transition-colors"
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<script>
+  // This script runs once per page in Astro (automatically bundled & deduped)
+  function initMobileNav() {
+    const btn = document.getElementById("menu-toggle") as HTMLButtonElement;
+    const nav = document.getElementById("mobile-nav-container") as HTMLElement;
+
+    if (!btn || !nav) return;
+
+    function closeNav() {
+      nav.classList.add("translate-x-full", "pointer-events-none");
+      document.body.style.overflow = "";
+      btn.classList.remove("active");
+      btn.setAttribute("aria-expanded", "false");
+    }
+
+    function openNav() {
+      nav.classList.remove("translate-x-full", "pointer-events-none");
+      document.body.style.overflow = "hidden";
+      btn.classList.add("active");
+      btn.setAttribute("aria-expanded", "true");
+    }
+
+    function isNavOpen() {
+      return !nav.classList.contains("translate-x-full");
+    }
+
+    // Toggle on button click
+    btn.addEventListener("click", () => {
+      if (isNavOpen()) {
+        closeNav();
+      } else {
+        openNav();
+      }
+    });
+
+    // Close on outside click desktop
+    document.addEventListener("click", (e) => {
+      if (
+        isNavOpen() &&
+        !nav.contains(e.target as Node) &&
+        !btn.contains(e.target as Node)
+      ) {
+        closeNav();
+      }
+    });
+
+    // Close on outside click mobile
+    document.addEventListener("touchstart", (e) => {
+      if (
+        isNavOpen() &&
+        !nav.contains(e.target as Node) &&
+        !btn.contains(e.target as Node)
+      ) {
+        closeNav();
+      }
+    });
+
+    // Close on window resize to desktop
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 1024 && isNavOpen()) {
+        closeNav();
+      }
+    });
+
+    // Close when nav link is clicked
+    const navLinks = nav.querySelectorAll("a");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", closeNav);
+    });
+
+    // Close on Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isNavOpen()) {
+        closeNav();
+      }
+    });
+  }
+
+  // Initialize
+  initMobileNav();
+
+  // Re-initialize on Astro page transitions (if using View Transitions)
+  document.addEventListener("astro:page-load", initMobileNav);
+</script>

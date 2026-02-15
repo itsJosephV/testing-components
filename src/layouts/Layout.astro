@@ -1,0 +1,63 @@
+---
+import Header2 from "../components/Header2.astro";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MILFSHAKES Shopify-Style</title>
+    <style>
+      /* Ensure the site can scroll, but the menu tracks it */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Toggle icon animation */
+      #menuBtn {
+        transition: all 0.3s ease;
+      }
+      #menuBtn.is-active {
+        transform: rotate(90deg);
+        color: #dc2626;
+      }
+
+      /* Mimic Shopify's custom element wrapper */
+      header-menu-drawer {
+        display: contents; /* */
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-900">
+    <div id="banner" class="bg-blue-200 p-4 text-center text-sm font-bold">
+      FREE DELIVERY ON ALL ORDERS OVER $50!
+    </div>
+    <div id="banner" class="bg-blue-200 p-4 text-center text-sm font-bold">
+      FREE DELIVERY ON ALL ORDERS OVER $50!
+    </div>
+    <div id="banner" class="bg-blue-200 p-4 text-center text-sm font-bold">
+      FREE DELIVERY ON ALL ORDERS OVER $50!
+    </div>
+    <Header2 />
+    <main class="p-8 max-w-3xl mx-auto space-y-12">
+      <h2 class="text-4xl font-black mb-4">DYNAMIC OFFSET</h2>
+      <p class="text-lg text-gray-600">
+        Even without <code>overflow: hidden</code>, this menu will stay aligned
+        under the header because we use <code>getBoundingClientRect()</code>
+        to track the header's position in real-time.
+      </p>
+
+      {
+        [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div class="h-64 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 font-bold border-2 border-dashed border-gray-200">
+            SCROLL CONTENT {i}
+          </div>
+        ))
+      }
+    </main>
+  </body>
+</html>

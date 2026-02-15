@@ -1,0 +1,32 @@
+---
+import MobileNav from "./MobileNav.astro";
+import DesktopNav from "./DesktopNav.astro";
+---
+
+<header class="sticky top-0 z-50 bg-white border-b">
+  <!-- Banners -->
+  <div class="bg-black text-white text-center py-2">Banner</div>
+  <!-- Main header content -->
+  <div class="flex justify-between items-center h-16 px-4">
+    <a href="/" class="font-bold text-sm">LOGO</a>
+    <DesktopNav />
+    <button
+      id="menu-toggle"
+      class="group w-5 h-5 flex flex-col justify-center items-center relative cursor-pointer lg:hidden"
+      aria-label="Toggle Menu"
+    >
+      <span
+        class="w-full h-[2px] bg-black rounded-full transition-all duration-300 absolute top-[2px] group-[.active]:top-1/2 group-[.active]:-translate-y-1/2 group-[.active]:rotate-45"
+      ></span>
+
+      <span
+        class="w-full h-[2px] bg-black rounded-full transition-all duration-300 absolute top-1/2 -translate-y-1/2 group-[.active]:opacity-0"
+      ></span>
+
+      <span
+        class="w-full h-[2px] bg-black rounded-full transition-all duration-300 absolute bottom-[2px] group-[.active]:bottom-1/2 group-[.active]:translate-y-1/2 group-[.active]:-rotate-45"
+      ></span>
+    </button>
+  </div>
+  <MobileNav />
+</header>

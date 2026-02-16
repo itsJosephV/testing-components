@@ -1,5 +1,7 @@
 ---
+import BannerComponent from "../components/BannerComponent.astro";
 import Header2 from "../components/Header2.astro";
+import SimpleBanner from "../components/SimpleBanner.astro";
 import "../styles/global.css";
 ---
 
@@ -32,32 +34,31 @@ import "../styles/global.css";
       }
     </style>
   </head>
-  <body class="bg-white text-gray-900">
-    <div id="banner" class="bg-blue-200 p-4 text-center text-sm font-bold">
-      FREE DELIVERY ON ALL ORDERS OVER $50!
-    </div>
-    <div id="banner" class="bg-blue-200 p-4 text-center text-sm font-bold">
-      FREE DELIVERY ON ALL ORDERS OVER $50!
-    </div>
-    <div id="banner" class="bg-blue-200 p-4 text-center text-sm font-bold">
-      FREE DELIVERY ON ALL ORDERS OVER $50!
-    </div>
+  <body class="bg-white text-gray-900 flex flex-col min-h-screen">
+    <BannerComponent />
+    <SimpleBanner />
     <Header2 />
-    <main class="p-8 max-w-3xl mx-auto space-y-12">
-      <h2 class="text-4xl font-black mb-4">DYNAMIC OFFSET</h2>
-      <p class="text-lg text-gray-600">
-        Even without <code>overflow: hidden</code>, this menu will stay aligned
-        under the header because we use <code>getBoundingClientRect()</code>
-        to track the header's position in real-time.
-      </p>
-
-      {
-        [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-          <div class="h-64 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 font-bold border-2 border-dashed border-gray-200">
-            SCROLL CONTENT {i}
-          </div>
-        ))
-      }
+    <main class="grow">
+      <slot />
     </main>
+    <footer class="p-3 bg-amber-400">this is the footer</footer>
   </body>
 </html>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("scrolled");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 },
+  ); // Trigger when 10% is visible
+
+  document.querySelectorAll("[data-animated]").forEach((el) => {
+    observer.observe(el);
+  });
+</script>

@@ -1,5 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 @import "tailwindcss";
+
 
 .root {
   isolation: isolate;
+}
+
+
+/* .scrolled {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: scroll-in 1s forwards;
+}
+
+@keyframes scroll-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {    opacity: 1;
+    transform: translateY(0); 
+  }
+} */
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+/* 1. Base state: Hidden by default */
+[data-animated] {
+  opacity: 0;
+  transform: translateY(30px);
+  /* Optional: ensure it doesn't take up click space while invisible */
+  visibility: hidden; 
+  transition: opacity 1s ease-out, transform 1s ease-out, visibility 1s;
+}
+
+/* 2. Revealed state: Triggered by JS */
+[data-animated].scrolled {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+/* 3. Accessibility Fallback: Show content if JS is disabled */
+:where(.no-js) [data-animated] {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }

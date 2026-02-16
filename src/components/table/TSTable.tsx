@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { viviendas } from "../../data/viviendas";
 import { type Vivienda } from "../../data/viviendas";
 import {
@@ -70,18 +70,18 @@ const columns: ColumnDef<Vivienda, any>[] = [
   //     </button>
   //   ),
   // }),
-  // columnHelper.display({
-  //   id: "contacto",
-  //   header: "CONTACTO",
-  //   cell: () => (
-  //     <button
-  //       onClick={() => alert("Contactar")}
-  //       className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800"
-  //     >
-  //       Contacto
-  //     </button>
-  //   ),
-  // }),
+  columnHelper.display({
+    id: "contacto",
+    header: "Contacto",
+    cell: () => (
+      <button
+        onClick={() => alert("Contactar")}
+        className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800"
+      >
+        Contacto
+      </button>
+    ),
+  }),
 ];
 
 const Table = () => {
@@ -91,8 +91,12 @@ const Table = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const tableRef = useRef<HTMLDivElement>(null);
+
+  // add data-animated attribute to table when it is in viewport  data-animated="true"
+
   return (
-    <div className="overflow-x-auto">
+    <div ref={tableRef} className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
         <thead className="bg-gray-50">
           {table.getHeaderGroups().map((headerGroup) => (

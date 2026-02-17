@@ -1,6 +1,6 @@
 <header
   id="mainHeader"
-  class="sticky top-0 z-50 border-b bg-white border-slate-200 transition-transform duration-300 ease-in-out"
+  class="sticky top-0 z-100 border-b bg-white border-slate-200 transition-transform duration-300 ease-in-out"
 >
   <div
     id="headerContent"
@@ -67,116 +67,7 @@
   </header-menu-drawer>
 </header>
 
-<script>
-  // DOM Elements
-  const mainHeader = document.getElementById("mainHeader") as HTMLElement;
-  const menuBtn = document.getElementById("menuBtn") as HTMLElement;
-  const mobileNav = document.getElementById("mobileNav") as HTMLElement;
-  const headerContent = document.getElementById("headerContent") as HTMLElement;
-  const navLinks = mobileNav.querySelectorAll("a") as NodeListOf<HTMLElement>;
-
-  // --- 1. NEW: Scroll Logic Variables ---
-  let lastScrollY = window.scrollY;
-  const scrollThreshold = 50; // Buffer to prevent jitter on tiny scrolls
-
-  // --- 2. NEW: Scroll Handler ---
-  window.addEventListener("scroll", () => {
-    const currentScrollY = window.scrollY;
-    const isMenuOpen = menuBtn.classList.contains("active");
-
-    // Don't hide the header if the mobile menu is open!
-    if (isMenuOpen) return;
-
-    // Check if we scrolled enough to trigger the change
-    if (Math.abs(currentScrollY - lastScrollY) < scrollThreshold) return;
-
-    // Logic: Hide on scroll down, Show on scroll up
-    if (currentScrollY > lastScrollY && currentScrollY > 75) {
-      // Scrolling Down & not at very top
-      mainHeader.classList.add("-translate-y-full");
-    } else {
-      // Scrolling Up
-      mainHeader.classList.remove("-translate-y-full");
-    }
-
-    lastScrollY = currentScrollY;
-  });
-
-  // --- Existing Logic (Slightly Modified) ---
-
-  const updateMenuLayout = () => {
-    if (!headerContent || !mobileNav) return;
-    const rect = headerContent.getBoundingClientRect();
-    mobileNav.style.height = `calc(100dvh - ${rect.bottom}px)`;
-  };
-
-  function openNav() {
-    // CRITICAL: Ensure header is visible before calculating layout
-    mainHeader.classList.remove("-translate-y-full");
-
-    updateMenuLayout();
-
-    mobileNav.style.display = "block";
-    mobileNav.classList.remove("hidden");
-
-    requestAnimationFrame(() => {
-      mobileNav.classList.remove("translate-x-full");
-      menuBtn.classList.add("active");
-      document.body.style.overflow = "hidden";
-    });
-
-    document.addEventListener("click", handleOutsideClick);
-    document.addEventListener("keydown", handleEscape);
-    document.addEventListener("touchstart", handleOutsideClick);
-    window.addEventListener("resize", handleResize);
-    // Note: We keep this to update height if window resizes,
-    // but the main scroll hide/show is handled by the new listener above.
-    window.addEventListener("scroll", updateMenuLayout);
-  }
-
-  function closeNav() {
-    document.body.style.overflow = "";
-    menuBtn.classList.remove("active");
-    mobileNav.classList.add("translate-x-full");
-
-    mobileNav.addEventListener(
-      "transitionend",
-      () => {
-        if (mobileNav.classList.contains("translate-x-full")) {
-          mobileNav.style.display = "none";
-          mobileNav.classList.add("hidden");
-        }
-      },
-      { once: true },
-    );
-
-    document.removeEventListener("click", handleOutsideClick);
-    document.removeEventListener("touchstart", handleOutsideClick);
-    document.removeEventListener("keydown", handleEscape);
-    window.removeEventListener("resize", handleResize);
-    // Clean up
-    window.removeEventListener("scroll", updateMenuLayout);
-  }
-
-  function handleOutsideClick(e: any) {
-    if (!mobileNav.contains(e.target) && !menuBtn.contains(e.target)) {
-      closeNav();
-    }
-  }
-
-  function handleEscape(e: any) {
-    if (e.key === "Escape") closeNav();
-  }
-
-  function handleResize() {
-    if (window.innerWidth >= 768) closeNav();
-  }
-
-  menuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const isOpen = !mobileNav.classList.contains("hidden");
-    isOpen ? closeNav() : openNav();
-  });
-
-  navLinks.forEach((link) => link.addEventListener("click", closeNav));
+<script is:inline type="module">
+  import { initHeader } from "../scripts/header";
+  initHeader();
 </script>

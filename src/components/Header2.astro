@@ -55,19 +55,57 @@
     role="dialog"
   >
     <div class="flex flex-col h-full">
-      <nav class="p-5 flex flex-col gap-6 font-bold text-lg flex-1">
-        <a href="#" class="hover:text-red-600">SHOP ALL</a>
-        <a href="#" class="hover:text-red-600">LOCATIONS</a>
-        <a href="#" class="hover:text-red-600">REWARDS</a>
-      </nav>
+      <div class="flex-1">
+        <nav class="p-5 flex flex-col gap-6 font-bold text-lg">
+          <a href="#" class="hover:text-red-600">SHOP ALL</a>
+          <a href="#" class="hover:text-red-600">LOCATIONS</a>
+          <a href="#" class="hover:text-red-600">REWARDS</a>
+        </nav>
+        <div
+          id="content-carousel"
+          class="flex items-center gap-4 overflow-x-auto px-5 scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          style="-webkit-overflow-scrolling: touch; scrollbar-width: none;"
+        >
+          <div
+            class="h-60 w-40 shrink-0 snap-center bg-red-200 rounded-lg flex items-center justify-center"
+          >
+            test 1
+          </div>
+          <div
+            class="h-60 w-40 shrink-0 snap-center bg-red-200 rounded-lg flex items-center justify-center"
+          >
+            test 2
+          </div>
+          <div
+            class="h-60 w-40 shrink-0 snap-center bg-red-200 rounded-lg flex items-center justify-center"
+          >
+            test 3
+          </div>
+          <div
+            class="h-60 w-40 shrink-0 snap-center bg-red-200 rounded-lg flex items-center justify-center"
+          >
+            test 4
+          </div>
+          <div
+            class="h-60 w-40 shrink-0 snap-center bg-red-200 rounded-lg flex items-center justify-center"
+          >
+            test 5
+          </div>
+          <div
+            class="h-60 w-40 shrink-0 snap-center bg-red-200 rounded-lg flex items-center justify-center"
+          >
+            test 6
+          </div>
+        </div>
+      </div>
       <footer class="p-5 bg-slate-50 border-slate-200 border-t">
         footer of the menu
       </footer>
     </div>
   </header-menu-drawer>
-</header>
 
-<script>
-  import { initHeader } from "../scripts/header.ts";
-  initHeader();
-</script>
+  <script>
+    import { initHeader } from "../scripts/header.ts";
+    initHeader();
+  </script>
+</header>

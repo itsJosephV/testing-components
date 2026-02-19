@@ -1,0 +1,51 @@
+---
+// src/components/FormularioContacto.astro
+---
+
+<div class="form-container">
+  <h3>Formulario de Prueba GTM</h3>
+
+  <form id="mi-formulario-prueba">
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
+    </div>
+
+    <button type="submit">Enviar Formulario</button>
+  </form>
+</div>
+
+<script is:inline>
+  // Seleccionamos el formulario por su ID
+  const form = document.getElementById("mi-formulario-prueba");
+
+  form.addEventListener("submit", (event) => {
+    // IMPORTANTE: No usamos event.preventDefault() de inmediato
+    // para dejar que GTM detecte el evento de "submit" natural.
+
+    alert("¡Formulario enviado con éxito!");
+
+    // Si quieres evitar que la página se recargue (típico en SPAs),
+    // GTM suele detectar el evento justo antes de que este alert se cierre.
+  });
+</script>
+
+<style>
+  .form-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    max-width: 300px;
+    margin: 20px auto;
+    font-family: sans-serif;
+  }
+  div {
+    margin-bottom: 10px;
+  }
+  button {
+    cursor: pointer;
+    background: #0070f3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+  }
+</style>

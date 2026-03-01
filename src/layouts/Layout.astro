@@ -10,32 +10,16 @@ import "../styles/global.css";
 <!doctype html>
 <html lang="en">
   <head>
+    <script
+      is:inline
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer></script>
+
     <GoogleTagManager />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MILFSHAKES Shopify-Style</title>
-    <style>
-      /* Ensure the site can scroll, but the menu tracks it */
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      /* Toggle icon animation */
-      #menuBtn {
-        transition: all 0.3s ease;
-      }
-      #menuBtn.is-active {
-        transform: rotate(90deg);
-        color: #dc2626;
-      }
-
-      /* Mimic Shopify's custom element wrapper */
-      header-menu-drawer {
-        display: contents; /* */
-      }
-    </style>
   </head>
   <body class="bg-white text-gray-900 flex flex-col min-h-screen">
     <GTMNoScript />
@@ -66,3 +50,26 @@ import "../styles/global.css";
     observer.observe(el);
   });
 </script>
+
+<style>
+  /* Ensure the site can scroll, but the menu tracks it */
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Toggle icon animation */
+  #menuBtn {
+    transition: all 0.3s ease;
+  }
+  #menuBtn.is-active {
+    transform: rotate(90deg);
+    color: #dc2626;
+  }
+
+  /* Mimic Shopify's custom element wrapper */
+  header-menu-drawer {
+    display: contents; /* */
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+
+---
+
+<form id="my-form">
+  <label>
+    Name
+    <input type="text" name="name" required />
+  </label>
+
+  <label>
+    Email
+    <input type="email" name="email" required />
+  </label>
+
+  <!-- Turnstile widget — renders automatically -->
+  <div
+    class="cf-turnstile"
+    data-sitekey={import.meta.env.SITE_KEY}
+    data-size="invisible"
+  >
+  </div>
+
+  <button type="submit">Submit</button>
+
+  <script>
+    import { actions } from "astro:actions";
+
+    const form = document.querySelector("#my-form");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form) as HTMLFormElement;
+      const { data, error } = await actions.submitForm(formData);
+
+      if (error) {
+        alert(error.message);
+        console.log("turnstile object");
+
+        // Reset Turnstile so the user can retry
+        turnstile.reset();
+        return;
+      }
+
+      console.log("turnstile object");
+      // reset the form
+      form.reset();
+
+      return {
+        success: true,
+        message: "Form submitted successfully!",
+      };
+    });
+  </script>
+</form>

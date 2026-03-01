@@ -10,13 +10,10 @@ import "../styles/global.css";
 <!doctype html>
 <html lang="en">
   <head>
-    <script
-      is:inline
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-
     <GoogleTagManager />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://challenges.cloudflare.com" />
     <title>MILFSHAKES Shopify-Style</title>
   </head>
   <body class="bg-white text-gray-900 flex flex-col min-h-screen">
@@ -28,6 +25,11 @@ import "../styles/global.css";
       <slot />
     </main>
     <footer class="p-3 bg-amber-400">this is the footer</footer>
+    <script
+      is:inline
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer></script>
   </body>
 </html>
 

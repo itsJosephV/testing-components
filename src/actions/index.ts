@@ -28,8 +28,6 @@ export const server = {
 
       const verifyData = await verifyRes.json();
 
-      console.log(verifyData);
-
       if (!verifyData.success) {
         throw new ActionError({
           code: 'FORBIDDEN',

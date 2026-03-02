@@ -31,6 +31,8 @@
 
     const token = await turnstile.execute(widget);
 
+    console.log(token);
+
     const formData = new FormData(form);
     formData.set("cf-turnstile-response", token);
 

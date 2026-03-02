@@ -24,16 +24,19 @@
   import { actions } from "astro:actions";
 
   const form = document.querySelector("#my-form") as HTMLFormElement;
+  const widget = document.querySelector(".cf-turnstile") as HTMLElement;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const token = await turnstile.execute(widget);
+
     const formData = new FormData(form);
+    formData.set("cf-turnstile-response", token);
+
     const { data, error } = await actions.submitForm(formData);
 
-    // Always reset — token is single-use regardless of outcome
-    console.log("turnstile reset");
-    turnstile.reset();
+    turnstile.reset(widget);
 
     if (error) {
       alert(error.message);

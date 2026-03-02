@@ -10,6 +10,11 @@ import "../styles/global.css";
 <!doctype html>
 <html lang="en">
   <head>
+    <script
+      is:inline
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer></script>
     <GoogleTagManager />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,11 +30,6 @@ import "../styles/global.css";
       <slot />
     </main>
     <footer class="p-3 bg-amber-400">this is the footer</footer>
-    <script
-      is:inline
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-      async
-      defer></script>
   </body>
 </html>
 

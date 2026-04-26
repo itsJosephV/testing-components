@@ -58,7 +58,7 @@ function createNavHelpers(mainHeader: HTMLElement, mobileNav: HTMLElement) {
   const isNavOpen = () => !mobileNav.classList.contains("hidden");
 
   function syncNavHeight() {
-    const headerBottom = mainHeader.getBoundingClientRect().bottom;
+    const headerBottom = mainHeader.offsetTop + mainHeader.offsetHeight;
     mobileNav.style.height = `calc(100dvh - ${headerBottom}px)`;
   }
 

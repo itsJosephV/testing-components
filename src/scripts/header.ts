@@ -167,7 +167,7 @@ export function initHeader() {
 
   const { addNavEventListeners, removeNavEventListeners } = createEventListeners(
     mobileNav, menuBtn,
-    () => closeNav(),   // forward reference
+    () => closeNav(),
     syncNavHeight,
   );
 

@@ -59,24 +59,10 @@ function createNavHelpers(mainHeader: HTMLElement, mobileNav: HTMLElement) {
 
   function syncNavHeight() {
     const headerBottom = mainHeader.getBoundingClientRect().bottom;
-    const availableHeight = window.innerHeight - headerBottom;
-    mobileNav.style.height = `${availableHeight}px`;
+    mobileNav.style.height = `calc(100dvh - ${headerBottom}px)`;
   }
 
-  function setupResizeListener() {
-    const resizeObserver = new ResizeObserver(() => {
-      if (isNavOpen()) {
-        syncNavHeight();
-      }
-    });
-    resizeObserver.observe(mainHeader);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }
-
-  return { isNavOpen, syncNavHeight, setupResizeListener };
+  return { isNavOpen, syncNavHeight };
 }
 
 // =============================================================================
@@ -177,7 +163,7 @@ export function initHeader() {
 
   const { mainHeader, menuBtn, mobileNav, navLinks } = elements;
 
-  const { isNavOpen, syncNavHeight, setupResizeListener } = createNavHelpers(mainHeader, mobileNav);
+  const { isNavOpen, syncNavHeight } = createNavHelpers(mainHeader, mobileNav);
 
   const { addNavEventListeners, removeNavEventListeners } = createEventListeners(
     mobileNav, menuBtn,
@@ -192,8 +178,6 @@ export function initHeader() {
     removeNavEventListeners,
   );
 
-  const cleanupResize = setupResizeListener();
-
   menuBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     isNavOpen() ? closeNav() : openNav();
@@ -202,9 +186,4 @@ export function initHeader() {
   navLinks.forEach((link) => link.addEventListener("click", closeNav));
 
   window.addEventListener("scroll", createScrollHandler(mainHeader, isNavOpen));
-
-  // Cleanup function for component unmounts (if needed)
-  return () => {
-    cleanupResize();
-  };
 }

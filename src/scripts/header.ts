@@ -120,6 +120,7 @@ function createEventListeners(
   mobileNav: HTMLElement,
   menuBtn: HTMLElement,
   closeNav: () => void,
+  isNavOpen: () => boolean,
   syncNavHeight: () => void,
 ) {
   function handleOutsideInteraction(e: Event) {
@@ -133,7 +134,11 @@ function createEventListeners(
   }
 
   function handleResize() {
-    if (window.innerWidth >= 768) closeNav();
+    if (window.innerWidth >= 768) {
+      closeNav();
+    } else if (isNavOpen()) {
+      syncNavHeight(); // recalc on orientation change
+    }
   }
 
   function addNavEventListeners() {
@@ -169,6 +174,7 @@ export function initHeader() {
   const { addNavEventListeners, removeNavEventListeners } = createEventListeners(
     mobileNav, menuBtn,
     () => closeNav(),
+    isNavOpen,
     syncNavHeight,
   );
 

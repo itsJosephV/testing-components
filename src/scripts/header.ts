@@ -58,8 +58,9 @@ function createNavHelpers(mainHeader: HTMLElement, mobileNav: HTMLElement) {
   const isNavOpen = () => !mobileNav.classList.contains("hidden");
 
   function syncNavHeight() {
-    const headerBottom = mainHeader.offsetTop + mainHeader.offsetHeight;
-    mobileNav.style.height = `calc(100dvh - ${headerBottom}px)`;
+    // svh = viewport with chrome always present → stable, never recalculates
+    const headerHeight = mainHeader.offsetHeight;
+    mobileNav.style.height = `calc(100svh - ${headerHeight}px)`;
   }
 
   return { isNavOpen, syncNavHeight };
@@ -140,7 +141,7 @@ function createEventListeners(
     document.addEventListener("touchstart", handleOutsideInteraction);
     document.addEventListener("keydown", handleEscapeKey);
     window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", syncNavHeight);
+    // window.addEventListener("scroll", syncNavHeight);
   }
 
   function removeNavEventListeners() {
@@ -148,7 +149,7 @@ function createEventListeners(
     document.removeEventListener("touchstart", handleOutsideInteraction);
     document.removeEventListener("keydown", handleEscapeKey);
     window.removeEventListener("resize", handleResize);
-    window.removeEventListener("scroll", syncNavHeight);
+    // window.removeEventListener("scroll", syncNavHeight);
   }
 
   return { addNavEventListeners, removeNavEventListeners };
